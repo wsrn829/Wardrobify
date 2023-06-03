@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./shoes/api",
+        "./hats/api"
+    ]
+}

@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 function ShoeForm() {
     const [name, setName] = useState('');
     const [color, setColor] = useState('');
     const [manufacturer, setManufacturer] = useState('');
     const [picture, setPicture] = useState('');
-    const [bin, setBin] = useState(''); //update later
+    const [bin, setBin] = useState('');
+    const [bins, setBins] = useState([]);
 
     function handleChange( event ,callback) {
         const { target } = event;
@@ -15,19 +17,19 @@ function ShoeForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const data = {}
+        const data = {};
         data.name = name;
         data.color = color;
         data.manufacturer = manufacturer;
         data.picture_url = picture;
         data.bin = bin;
 
-        const url = "http://localhost:8080/api/shoes/"
-        const json = JSON.stringify(data)
+        const url = 'http://localhost:8080/api/shoes/';
+        const json = JSON.stringify(data);
         const fetchConfig = {
             method: "POST", body: json, headers: {'Content-Type': 'application/json'}
         }
-        const response = await fetch(url, fetchConfig)
+        const response = await fetch(url, fetchConfig);
         if (response.ok) {
             const newShoe = await response.json();
             console.log(newShoe);
@@ -38,6 +40,25 @@ function ShoeForm() {
             setBin('');
         }
     }
+
+    const fetchData = async () => {
+
+        const url = "http://localhost:8100/api/bins/";
+
+        const response = await fetch(url);
+
+        if (response.ok) {
+          const data = await response.json();
+          setBins(data.bins);
+          } else {
+            console.error(response);
+          }
+        }
+
+    useEffect(() => {
+        fetchData();
+      }, []);
+
 
     return (
         <div className='row'>
@@ -62,8 +83,17 @@ function ShoeForm() {
                             <label html="picture_url">Picture url</label>
                         </div>
                         <div className="form-floating mb-3">
-                            <input onChange={(event) => handleChange(event, setBin)} className="form-control" value={bin} placeholder='bin' required type="text" name="bin" id="bin"/>
-                            <label html="bin">Bin</label>
+                            <select onChange={(event) => handleChange(event, setBin)} value={bin} required name="bins" id="bins" className='form-select'>
+                                {console.log(bin)}
+                            <option>Choose a bin</option>
+                                {bins.map((bin) => {
+                                    return (
+                                        <option key={bin.id} value={bin.href}>
+                                            {bin.closet_name}
+                                        </option>
+                                    )
+                                })}
+                             </select>
                         </div>
                         <button className="btn btn-primary">Create</button>
                     </form>
