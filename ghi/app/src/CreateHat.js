@@ -105,7 +105,7 @@ function CreateHat(props) {
             <label htmlFor="picture_url">Picture URL</label>
           </div>
           <div className="mb-3">
-            <select onChange={handleLocationChange} required name="locations" id="locations" className="form-select">
+            <select onChange={handleLocationChange} required name="location" id="location" className="form-select">
                 <option value="">Choose a Location</option>
                 {locations.map((location) => {
                     return (

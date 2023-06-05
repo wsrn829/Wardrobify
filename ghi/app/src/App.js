@@ -31,8 +31,8 @@ function App(props) {
           <Route index path="/" element={<MainPage />} />
           <Route path="shoes/" element={<Shoes shoes={props.shoes} />} />
           <Route path="shoes/form/" element={<ShoeForm />} />
-          <Route path="/hats" element={<ListHats hats={hats} getHats={getHats}/>} />
-          <Route path="/create/hat" element={<CreateHat getHats={getHats}/>} />
+          <Route path="/hats/" element={<ListHats hats={hats} getHats={getHats}/>} />
+          <Route path="/create/hat/" element={<CreateHat getHats={getHats}/>} />
         </Routes>
       </div>
     </BrowserRouter>
